@@ -197,7 +197,12 @@ class LayerNorm(nn.LayerNorm):
         orig_type = x.dtype
         ret = super().forward(x.type(torch.float32))
         return ret.type(orig_type)
-
+'''
+对文本和图像进行特征提取，然后计算图像和文本之间的相似度矩阵
+并进一步得到文本和文本到图像之间的得分矩阵
+如果有多个进程进行分布式计算，还会对得分矩阵进行全局求和
+返回的是得分矩阵的Numpy形式
+'''
 
 def compute_sim_matrix(model, data_loader, **kwargs):
     k_test = kwargs.pop("k_test")
